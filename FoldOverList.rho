@@ -1,0 +1,43 @@
+new sumProd in {
+   contract sumProd(@arr, ret) = {
+     new fold, sum, prod in {
+       contract fold(@init, op, @arr, ret) = {
+         match arr {
+           [h ...t] => {
+             new tailCh in {
+               fold!(init, *op, t, *tailCh) |
+               for (@folded <- tailCh) {
+                 op!(h, folded, *ret)
+               }
+             }
+           }
+           [] => ret!(init)
+         }
+       } |
+       contract sum(@arr, ret) = {
+         new add in {
+           contract add(@a, @b, ret) = {
+             ret!(a + b)
+           } |
+           fold!(0, *add, arr, *ret)
+         }
+       } |
+       contract prod(@arr, ret) = {
+         new mult in {
+           contract mult(@a, @b, ret) = {
+             ret!(a * b)
+           } |
+           fold!(1, *mult, arr, *ret)
+         }
+       } |
+       new sumCh, prodCh in {
+         sum!(arr, *sumCh) |
+         prod!(arr, *prodCh) |
+         for (@s <- sumCh; @p <- prodCh) {
+           ret!([s, p])
+         }
+       }
+     }
+   } |
+   sumProd!([4,5,6], "stdout")
+ }

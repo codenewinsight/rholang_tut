@@ -1,0 +1,9 @@
+ new HelloWorld, stdout(`rho:io:stdout`), stderr(`rho:io:stderr`) in {
+   HelloWorld!!("Hello, world!") |
+   for (@text <- HelloWorld) {
+     stdout!(text)
+   } |
+   for (@text <- HelloWorld) {
+     stderr!(text)
+   }
+}

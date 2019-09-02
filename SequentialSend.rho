@@ -1,0 +1,9 @@
+ new chan, ack, stdoutAck(`rho:io:stdoutAck`) in {
+   chan!(0) |
+   for (_ <- ack) {
+     chan!(1)
+   } |
+   for (@num <= chan) {
+     stdoutAck(num, *ack)
+   }
+ }
