@@ -1,0 +1,14 @@
+new ret in {
+  MakeGetForwarder(target, ret) |
+  for (@pair <- ret) {
+    match pair {
+      [getOnly, kill] => {
+        MakeRevokableForwarder!(getOnly, *ret) |
+        for (revokableGetOnly <- ret) {
+          // give away revokableGetOnly instead of target
+          // hang onto kill for later revocation
+        }
+      }
+    }
+  }
+}

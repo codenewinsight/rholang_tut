@@ -1,0 +1,5 @@
+new x, y, stdout(`rho:io:stdout`) in {
+   x!(@"name"!("Joe") | @"age"!(40)) |  // (1)
+   for (@r <- x) { @"keccak256Hash"!(r.toByteArray(), *y) } |  // hash the program from (1)
+   for (@h <- y) { stdout!(h) }  // print out the keccak256 hash
+}

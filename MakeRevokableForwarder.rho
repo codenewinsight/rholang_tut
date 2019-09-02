@@ -1,0 +1,17 @@
+ new MakeRevokableForwarder in {
+   contract MakeRevokableForwarder(target, ret) = {
+     new port, kill, forwardFlag in {
+       ret!(*port, *kill) |
+       forwardFlag!(true) |
+       contract port(msg) = {
+         for (@status <- forwardFlag) {
+           forwardFlag!(status) |
+           match status { true => target!(*msg) }
+         }
+       } |
+       for (_ <- kill; _ <- forwardFlag) {
+         forwardFlag!(false)
+       }
+     }
+   }
+ }

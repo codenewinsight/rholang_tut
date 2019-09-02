@@ -1,0 +1,14 @@
+contract MakeSealerUnsealer(ret) =  {
+  new sealer, unsealer, ccRet in {
+    ret!(*sealer, *unsealer) |
+    MakeCoatCheck!(*ccRet) |
+    for (cc <- ccRet) {
+      contract sealer(@value, ret) = {
+        cc!("new", value, *ret)
+      } |
+      contract unsealer(@ticket, ret) = {
+        cc!("get", ticket, *ret)
+      }
+    }
+  }
+}

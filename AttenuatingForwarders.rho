@@ -1,0 +1,10 @@
+new MakeGetForwarder in {
+  contract MakeGetForwarder(target, ret) = {
+    new port in {
+      ret!(*port) |
+      contract port(@method, @arg, ack) = {
+        match method == "get" { true => target!("get", arg, *ack) }
+      }
+    }
+  }
+}
